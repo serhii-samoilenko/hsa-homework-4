@@ -1,70 +1,78 @@
-# hsa-user-metrics
+# Highload Software Architecture 8 Lesson 4 Homework
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+Monitoring systems for user metrics
+---
 
-If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
+## Metrics details
 
-## Running the application in dev mode
+This project sends currency rates to Google Analytics 4 using GAMP protocol.
+
+Since UAH/USD rate is pretty static, I decided to send Crypto currency rates instead. Metrics include rates of BTC, ETH and DOGE to UA, USD
+and EUR.
+
+Sample payload which is sent to Google Analytics:
+
+```json
+{
+    "client_id": "12345",
+    "events": [
+        {
+            "name": "BTC_rate",
+            "params": {
+                "UAH": "872591",
+                "EUR": "22502.7",
+                "USD": "23728.6"
+            }
+        }
+    ]
+}
+```
+
+The application is currently deployed to Heroku and sends metrics every minut, so Google Analytics should have some data to show.
+
+## GA Report
+
+Live report can be found [here](https://analytics.google.com/analytics/web/#/report-home/a2710000000w1ZjAAI).
+
+Unfortunately, I couldn't build a report with visible currency rate changes, only a general statistics and parameters preview,
+see [PRESENTATION](PRESENTATION.md) for more some screenshots.
+
+LookerStudio also needs couple days to process the data, so it currently doesn't show anything.
+
+## Application configuration
+
+The application is configured using yaml file. It is located
+in [`src/main/resources/application.yaml`](src/main/resources/application.yaml).
+
+## Running the project
+
+The project is built with Kotlin/Quarkus and utilizes Gradle as a build tool.
+
+**Requires Java 17+**
+
+### Running the application in dev mode
 
 You can run your application in dev mode that enables live coding using:
+
 ```shell script
 ./gradlew quarkusDev
 ```
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at http://localhost:8080/q/dev/.
+### Other options
 
-## Packaging and running the application
+Package into thin jar:
 
-The application can be packaged using:
 ```shell script
-./gradlew build
-```
-It produces the `quarkus-run.jar` file in the `build/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `build/quarkus-app/lib/` directory.
-
-The application is now runnable using `java -jar build/quarkus-app/quarkus-run.jar`.
-
-If you want to build an _über-jar_, execute the following command:
-```shell script
-./gradlew build -Dquarkus.package.type=uber-jar
+./gradlew build && \
+java -jar build/quarkus-app/quarkus-run.jar
 ```
 
-The application, packaged as an _über-jar_, is now runnable using `java -jar build/*-runner.jar`.
+Package into fat jar:
 
-## Creating a native executable
-
-You can create a native executable using: 
 ```shell script
-./gradlew build -Dquarkus.package.type=native
+./gradlew build -Dquarkus.package.type=uber-jar && \
+java -jar build/*-runner.jar
 ```
 
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using: 
-```shell script
-./gradlew build -Dquarkus.package.type=native -Dquarkus.native.container-build=true
-```
-
-You can then execute your native executable with: `./build/hsa-user-metrics-1.0-SNAPSHOT-runner`
-
-If you want to learn more about building native executables, please consult https://quarkus.io/guides/gradle-tooling.
-
-## Related Guides
-
-- REST Client Classic ([guide](https://quarkus.io/guides/rest-client)): Call REST services
-- YAML Configuration ([guide](https://quarkus.io/guides/config#yaml)): Use YAML to configure your Quarkus application
-- Kotlin ([guide](https://quarkus.io/guides/kotlin)): Write your services in Kotlin
-
-## Provided Code
-
-### YAML Config
-
-Configure your application with YAML
-
-[Related guide section...](https://quarkus.io/guides/config-reference#configuration-examples)
-
-The Quarkus application configuration is located in `src/main/resources/application.yml`.
-
-### REST Client
-
-Invoke different services through REST with JSON
-
-[Related guide section...](https://quarkus.io/guides/rest-client)
+Native executables are also supported but guaranteed to work properly,
+see https://quarkus.io/guides/gradle-tooling.

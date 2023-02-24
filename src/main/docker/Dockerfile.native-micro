@@ -14,9 +14,19 @@
 #
 # Then run the container using:
 #
-# docker run -i --rm -p 8080:8080 quarkus/hsa-user-metrics
+# docker run -i --rm quarkus/hsa-user-metrics
 #
 ###
+
+
+#################################################
+##
+##   WARNING: Metrics sent by this Docker image
+##   are REJECTED by the Google Analytics API.
+##
+#################################################
+
+
 FROM quay.io/quarkus/quarkus-micro-image:2.0
 WORKDIR /work/
 RUN chown 1001 /work \

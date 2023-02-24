@@ -10,6 +10,7 @@ import javax.ws.rs.QueryParam
 @Singleton
 @RegisterRestClient(configKey = "gamp4")
 interface GampV4Client {
+
     @POST
     @Path("/mp/collect")
     fun postEvents(

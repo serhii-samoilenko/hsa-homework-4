@@ -6,9 +6,6 @@ import io.smallrye.config.WithName
 @ConfigMapping(prefix = "app")
 interface AppConfig {
 
-    @WithName("message")
-    fun message(): String
-
     @WithName("scheduler-rate")
     fun schedulerRate(): String
 

@@ -27,17 +27,19 @@ class ScheduledWorker(
 
     @Scheduled(every = "{app.scheduler-rate}")
     fun main() {
-        val events = Crypto.values().map { getCurrencyPairs(it.toString(), Fiat.set) }
+        val events = Crypto.list.map { currency ->
+            getCurrencyEvent(currency, Fiat.list)
+        }
         val metrics = GampMetrics(clientId, events)
         gampClient.postEvents(config.measurementId(), config.apiSecret(), metrics)
         Log.info("Sent events: ${events.map { it.name }}")
     }
 
-    fun getCurrencyPairs(source: String, target: Set<String>): Event {
+    fun getCurrencyEvent(source: String, targets: Collection<String>): Event {
         val rates = coinbaseClient.getExchangeRatesForCurrency(source)
         val currency: String = rates.data.currency
         val pairs: Map<String, String> = rates.data.rates
-            .filter { target.contains(it.key) }
+            .filter { targets.contains(it.key) }
             .map { (crypto, rate) -> Pair(crypto, rate.toString()) }
             .toMap()
         Log.info("Got ${pairs.keys} crypto rates for $currency")
