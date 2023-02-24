@@ -28,7 +28,7 @@ Sample payload which is sent to Google Analytics:
 }
 ```
 
-The application is currently deployed to Heroku and sends metrics every minut, so Google Analytics should have some data to show.
+The application is currently deployed to Heroku and sends metrics every minute, so Google Analytics should have some data to show.
 
 ## GA Report
 
