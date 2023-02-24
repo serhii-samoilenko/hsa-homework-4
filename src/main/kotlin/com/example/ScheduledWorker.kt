@@ -11,6 +11,7 @@ import io.quarkus.logging.Log
 import io.quarkus.scheduler.Scheduled
 import org.eclipse.microprofile.rest.client.inject.RestClient
 import javax.enterprise.context.ApplicationScoped
+import kotlin.random.Random
 
 @ApplicationScoped
 class ScheduledWorker(
@@ -20,10 +21,14 @@ class ScheduledWorker(
     @RestClient
     private val gampClient: GampV4Client
 ) {
+    companion object {
+        private val clientId = Random.nextInt(100000000, 999999999).toString()
+    }
+
     @Scheduled(every = "{app.scheduler-rate}")
     fun main() {
         val events = Crypto.values().map { getCurrencyPairs(it.toString(), Fiat.set) }
-        val metrics = GampMetrics(config.clientId(), events)
+        val metrics = GampMetrics(clientId, events)
         gampClient.postEvents(config.measurementId(), config.apiSecret(), metrics)
         Log.info("Sent events: ${events.map { it.name }}")
     }

@@ -12,9 +12,6 @@ interface AppConfig {
     @WithName("scheduler-rate")
     fun schedulerRate(): String
 
-    @WithName("client-id")
-    fun clientId(): String
-
     @WithName("measurement-id")
     fun measurementId(): String
 
