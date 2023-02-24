@@ -1,0 +1,13 @@
+quarkus:
+  application.name: hsa-user-metrics
+  rest-client:
+    coinbase:
+      url: https://api.coinbase.com/v2
+    gamp4:
+      url: https://www.google-analytics.com
+app:
+  scheduler-rate: 1m
+  message: "hello"
+  client-id: 112358
+  measurement-id: "G-QBT07H9XRH"
+  api-secret: "syPiIgV-SnWMWxJE5d47_A"

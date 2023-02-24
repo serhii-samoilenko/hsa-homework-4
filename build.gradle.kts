@@ -20,7 +20,9 @@ dependencies {
     implementation("io.quarkus:quarkus-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("io.quarkus:quarkus-arc")
+    implementation("io.quarkus:quarkus-rest-client-jackson")
     implementation("io.quarkus:quarkus-scheduler")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     testImplementation("io.quarkus:quarkus-junit5")
 }
 
